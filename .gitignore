@@ -29,3 +29,5 @@ Thumbs.db
 *.pem
 *.key
 *.crt
+
+notes.md

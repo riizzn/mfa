@@ -4,6 +4,7 @@ import passport from "passport";
 import "dotenv/config";
 import cors from "cors";
 import dbConnect from "./config/db.js";
+import authRoutes from './routes/authRoutes.js'
 
 const app = express();
 dbConnect()
@@ -17,8 +18,7 @@ app.use(cors(corsOptions));
 app.use(json({ limit: "100mb" }));
 app.use(urlencoded({ limit: "100mb", extended: true }));
 const port = process.env.PORT || 7001;
-app.use(passport.initialize());
-app.use(passport.session());
+
 app.use(
   session({
     secret: process.env.SESSION_SECERET || "secret",
@@ -29,9 +29,12 @@ app.use(
     },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //routes
+app.use('/api/auth', authRoutes)
 
 //listen app
 app.listen(port, () => {
