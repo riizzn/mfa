@@ -12,9 +12,21 @@ passport.use(
 
       if (!isMatch) return done(null, false, { message: "wrong password" });
       return done(null, user);
-      
     } catch (error) {
-        return done(error)
+      return done(error);
     }
   })
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done (error)
+  }
+});

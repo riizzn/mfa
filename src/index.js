@@ -4,10 +4,11 @@ import passport from "passport";
 import "dotenv/config";
 import cors from "cors";
 import dbConnect from "./config/db.js";
-import authRoutes from './routes/authRoutes.js'
+import authRoutes from "./routes/authRoutes.js";
+import "./config/passport.js";
 
 const app = express();
-dbConnect()
+dbConnect();
 const corsOptions = {
   origin: ["http://localhost:3000"],
   credentials: true,
@@ -32,9 +33,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 //routes
-app.use('/api/auth', authRoutes)
+app.use("/api/auth", authRoutes);
 
 //listen app
 app.listen(port, () => {
