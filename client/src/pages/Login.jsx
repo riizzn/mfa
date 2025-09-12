@@ -13,7 +13,7 @@ const Login = () => {
       navigate("/setup-2fa");
     }
     else{
-      navigate('/verify/2fa')
+      navigate('/verify-2fa')
     }
   };
   return (

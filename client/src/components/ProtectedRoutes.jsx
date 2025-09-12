@@ -1,12 +1,12 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useSession } from "../context/SessionContext";
 
 const ProtectedRoutes = () => {
-    const isLoggedIn=true
-  return (
-    isLoggedIn? <Outlet/>: <Navigate to="/login"/>
-    
-  )
-}
+  const { isLoggedIn, loading } = useSession();
+  if (loading) return <div>Loading...</div>;
+  console.log("logged in user is ", isLoggedIn);
+  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+};
 
-export default ProtectedRoutes
+export default ProtectedRoutes;

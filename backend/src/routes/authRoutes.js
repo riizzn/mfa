@@ -15,7 +15,7 @@ const router = Router();
 router.post("/register", register);
 router.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local"),
   login
 );
 
