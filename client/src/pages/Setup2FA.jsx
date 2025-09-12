@@ -1,8 +1,11 @@
 import React from 'react'
+import TwoFa from '../components/TwoFa'
 
 const Setup2FA = () => {
   return (
-    <div>Setup2FA</div>
+    <>
+    <TwoFa/>
+    </>
   )
 }
 

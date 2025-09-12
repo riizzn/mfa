@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { login, register } from "../service/authApi";
 
-const LoginForm = () => {
+const LoginForm = ({ onLoginSuccess }) => {
   const [isRegister, setIsRegister] = useState(true);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -17,8 +17,8 @@ const LoginForm = () => {
       setMessage(data.message);
       setName("");
       setPassword("");
-      setError('')
-      
+      setError("");
+      onLoginSuccess(data);
     } catch (error) {
       console.log("The error is", error.message);
       setName("");
@@ -31,7 +31,8 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       if (password !== confirmPassword) {
-        alert("passwords do not match");
+        setError("Passwords do not match");
+        return;
       } else {
         const { data } = await register(name, password);
 
@@ -40,8 +41,7 @@ const LoginForm = () => {
         setName("");
         setPassword("");
         setConfirmPassword("");
-        setError('')
-        
+        setError("");
       }
     } catch (error) {
       console.log("The error is :", error.message);
@@ -51,12 +51,11 @@ const LoginForm = () => {
       setError("Something went wrong during user registration");
     }
   };
-  const handleRegisterToggle=()=>{
-    setIsRegister(!isRegister)
-    setError('')
-    setMessage('')
-
-  }
+  const handleRegisterToggle = () => {
+    setIsRegister(!isRegister);
+    setError("");
+    setMessage("");
+  };
 
   return (
     <div className="bg-white rounded-xl max-w-sm w-full mx-auto shadow-md p-8">
@@ -146,7 +145,7 @@ const LoginForm = () => {
         {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
         <Link
           to=""
-          onClick= {handleRegisterToggle}
+          onClick={handleRegisterToggle}
           className="text-black font-medium hover:underline"
         >
           {isRegister ? "Login" : "Create Account"}
