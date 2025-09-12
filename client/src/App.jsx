@@ -1,14 +1,14 @@
-
-
+import { RouterProvider } from "react-router-dom";
+import router from "./routes.jsx";
 
 function App() {
-  
-
   return (
-    <>
-     <h1 className="text-4xl text-rose-300">hello bitches</h1>
-    </>
-  )
+    <main className=" min-h-screen flex items-center justify-center p-4">
+      <div  className="w-full ">
+        <RouterProvider router={router} />
+      </div>
+    </main>
+  );
 }
 
-export default App
+export default App;
