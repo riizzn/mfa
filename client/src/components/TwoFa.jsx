@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { setup2FA } from "../service/authApi";
 
-const TwoFa = ({onSetupComplete}) => {
+const TwoFa = ({ onSetupComplete }) => {
   const [message, setMessage] = useState("");
   const [response, setResponse] = useState({});
   const copyClipBoard = async () => {
     await navigator.clipboard.writeText(response.secret);
     setMessage("secret copied to Clipboard");
-   
   };
   const fetchQRCode = async () => {
     const { data } = await setup2FA();
@@ -26,11 +25,18 @@ const TwoFa = ({onSetupComplete}) => {
         Scan the QR code below with your authenticator app
       </p>
       <div className="flex justify-center items-center">
-        <img src={response.qrCode} alt="2FA QR Code" className="" />
+        {response.qrCode ? (
+          <img src={response.qrCode} alt="2FA QR Code" className="flex items-center justify-center" />
+        ) : (
+          ""
+        )}
+   
       </div>
       <div className="text-sm text-center text-g">Enter the Code</div>
       <div className="m-2">
-        {message && <p className="text-sm  text-green-600 m-2 text-center">{message}</p>}
+        {message && (
+          <p className="text-sm  text-green-600 m-2 text-center">{message}</p>
+        )}
         <input
           readOnly
           defaultValue=""
@@ -42,6 +48,7 @@ const TwoFa = ({onSetupComplete}) => {
 
       <button
         type="submit"
+        onClick={onSetupComplete}
         className="p-2 bg-black text-white rounded-md w-full hover:bg-gray-800 transition-colors"
       >
         Continue to Verification

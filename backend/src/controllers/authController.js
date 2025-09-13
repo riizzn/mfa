@@ -42,8 +42,16 @@ export const authStatus = async (req, res) => {
 export const logout = async (req, res) => {
   if (!req.user) res.status(401).json({ message: "Unauthorized user" });
   req.logout((err) => {
-    if (err) return res.status(401).json({ message: "user not logged in" });
-    res.status(200).json({ message: "Logout successfully" });
+    if (err) return next(err);
+
+    req.session.destroy((err) => {
+      if (err) {
+        return next(err);
+      }
+      //clear cookie
+      res.clearCookie("coonect.sid")
+      res.status(200).json({ message: "Logout successfully" });
+    });
   });
 };
 export const setup2FA = async (req, res) => {
@@ -71,9 +79,9 @@ export const setup2FA = async (req, res) => {
 export const verify2FA = async (req, res) => {
   const user = req.user;
   const { token } = req.body;
-  
+
   const verified = speakeasy.totp.verify({
-    secret:user.twoFactorSecret,
+    secret: user.twoFactorSecret,
     encoding: "base32",
     token,
   });
